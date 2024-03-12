@@ -3,13 +3,13 @@ import java.awt.event.ActionListener;
 
 public class Main {
     public static void main(String[] args) {
-        // Créer un ActionListener pour gérer les clics sur les boutons de la grille
+        // Création d'un ActionListener pour gérer les clics sur les boutons de la grille
         ActionListener actionListenerGrille = e -> {
             System.out.println("Clic sur la colonne: " + e.getActionCommand());
-            // Logique pour gérer les clics sur les boutons de la grille
+            // Gestion des clics sur les boutons de la grille
         };
 
-        // Créer un ActionListener pour le menu "Nouvelle Partie"
+        // Création d'un ActionListener pour le menu "Nouvelle Partie"
         ActionListener actionListenerNouvellePartie = e -> {
             System.out.println("Nouvelle Partie démarrée");
             // Logique pour initialiser une nouvelle partie
