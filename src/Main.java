@@ -1,5 +1,6 @@
 import vue.VuePrincipale;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
