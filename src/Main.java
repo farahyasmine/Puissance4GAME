@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            new MenuDemarrage();
             Jeu jeu = new Jeu(); // Crée l'instance du modèle
             VueJeu vueJeu = new VueJeu(); // Crée l'instance de la vue
             Controleur controleur = new Controleur(jeu, vueJeu); // Crée l'instance du contrôleur et le lie au modèle et à la vue
