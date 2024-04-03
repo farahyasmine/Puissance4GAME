@@ -23,7 +23,6 @@ public class GrillePanel extends JPanel {
         for (int i = 0; i < lignes; i++) {
             for (int j = 0; j < colonnes; j++) {
                 JButton button = new JButton();
-                button.setActionCommand(Integer.toString(j));
                 button.addActionListener(actionListener);
                 boutons[i][j] = button;
                 add(button);
@@ -31,18 +30,22 @@ public class GrillePanel extends JPanel {
         }
     }
 
-    // Appel du controleur pour mettre à jour l'affichage
-    public void miseAJourGrille(char[][] etatGrille) {
-        for (int i = 0; i < lignes; i++) {
-            for (int j = 0; j < colonnes; j++) {
-                if (etatGrille[i][j] == 'X') {
-                    boutons[i][j].setText("X");
-                } else if (etatGrille[i][j] == 'O') {
-                    boutons[i][j].setText("O");
-                } else {
-                    boutons[i][j].setText("");
-                }
-            }
-        }
+    // Méthode pour obtenir le bouton à une certaine position dans la grille
+    public JButton getBouton(int ligne, int colonne) {
+        return boutons[ligne][colonne];
+    }
+
+    // Méthode pour remplir une case avec une couleur spécifiée
+    public void remplirCase(int ligne, int colonne, Color couleur) {
+        boutons[ligne][colonne].setBackground(couleur);
+        boutons[ligne][colonne].setOpaque(true);
+        boutons[ligne][colonne].setBorderPainted(false);
+    }
+
+    // Méthode pour effacer le contenu d'une case
+    public void effacerCase(int ligne, int colonne) {
+        boutons[ligne][colonne].setBackground(null);
+        boutons[ligne][colonne].setOpaque(false);
+        boutons[ligne][colonne].setBorderPainted(true);
     }
 }
