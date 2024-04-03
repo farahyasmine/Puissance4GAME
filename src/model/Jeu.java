@@ -1,12 +1,22 @@
+
+
 package model;
 
-
-
 public class Jeu {
-    private final int LIGNES = 6;
-    private final int COLONNES = 7;
+    private final int LIGNES = 6; // Nombre de lignes
+    public final int COLONNES = 7;
     private final int[][] grille = new int[LIGNES][COLONNES];
     private int joueurActuel;
+
+    // Méthode pour obtenir le nombre de lignes
+    public int getLignes() {
+        return LIGNES;
+    }
+
+    // Méthode pour obtenir le nombre de colonnes
+    public int getColonnes() {
+        return COLONNES;
+    }
 
     public Jeu() {
         reinitialiserJeu();
@@ -78,6 +88,7 @@ public class Jeu {
     public int[][] getGrille() {
         return grille;
     }
+
     public boolean estPlein() {
         for (int i = 0; i < LIGNES; i++) {
             for (int j = 0; j < COLONNES; j++) {
@@ -112,6 +123,6 @@ public class Jeu {
             }
         }
         return false; // Aucun gagnant trouvé
-    }
 
+    }
 }
