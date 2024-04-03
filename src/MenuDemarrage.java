@@ -1,30 +1,44 @@
+package vue;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
+import java.awt.*;
 
 public class MenuDemarrage extends JFrame {
-    private JTextField nomJoueur1 = new JTextField("Joueur 1");
-    private JTextField nomJoueur2 = new JTextField("IA");
-    private JButton boutonDemarrer = new JButton("Démarrer");
+    private JButton boutonJoueurVsJoueur = new JButton("Joueur vs Joueur");
+    private JButton boutonJoueurVsIA = new JButton("Joueur vs IA");
 
     public MenuDemarrage() {
-        setTitle("Puissance 4 - Choix du Mode");
+        setTitle("Choix du Mode");
         setSize(300, 200);
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        add(new JLabel("Nom Joueur 1 :"));
-        add(nomJoueur1);
-        add(new JLabel("Nom Joueur 2 / IA :"));
-        add(nomJoueur2);
-        boutonDemarrer.addActionListener(this::demarrerJeu);
-        add(boutonDemarrer);
+        setLayout(new FlowLayout());
+        add(boutonJoueurVsJoueur);
+        add(boutonJoueurVsIA);
+
+        boutonJoueurVsJoueur.addActionListener(e -> {
+            String nomJoueur1 = JOptionPane.showInputDialog("Nom Joueur 1 :");
+            String nomJoueur2 = JOptionPane.showInputDialog("Nom Joueur 2 :");
+            demarrerJeu(nomJoueur1, nomJoueur2);
+        });
+
+        boutonJoueurVsIA.addActionListener(e -> {
+            String nomJoueur = JOptionPane.showInputDialog("Nom Joueur :");
+            demarrerJeu(nomJoueur, "IA");
+        });
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    private void demarrerJeu(ActionEvent e) {
-        // Initialisation et démarrage du jeu avec les noms des joueurs
-        // Vous devez adapter cette partie pour intégrer correctement avec votre logique de jeu existante
-        System.out.println("Démarrage du jeu avec " + nomJoueur1.getText() + " et " + nomJoueur2.getText());
-        // Fermez ce menu et ouvrez la fenêtre de jeu principale
+    private void demarrerJeu(String nomJoueur1, String nomJoueur2) {
+        // Fermez ce menu de démarrage
+        this.dispose();
+
+        // Ici, créez et affichez votre interface de jeu, par exemple :
+        VueJeu vueJeu = new VueJeu(); // Assurez-vous que VueJeu peut être initialisé ainsi ou ajustez selon vos besoins
+        vueJeu.setVisible(true);
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MenuDemarrage::new);
+    }
 }
