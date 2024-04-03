@@ -61,6 +61,13 @@ public class VueJeu extends JFrame {
             grille[ligne][colonne].setBackground(couleur);
         });
     }
+    public void effacerJeton(int ligne, int colonne) {
+        SwingUtilities.invokeLater(() -> {
+            grille[ligne][colonne].setOpaque(false);
+            grille[ligne][colonne].setBackground(getContentPane().getBackground());
+        });
+    }
+
 
     public void afficherMessage(String message) {
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(this, message));
