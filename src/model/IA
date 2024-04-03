@@ -1,0 +1,24 @@
+package model;
+
+import java.util.Random;
+
+public class IA {
+    private final Jeu jeu;
+    private final Random random;
+
+    public IA(Jeu jeu) {
+        this.jeu = jeu;
+        this.random = new Random();
+    }
+
+    public int jouerCoup() {
+        int colonne;
+
+        // Trouver une colonne valide aléatoire pour jouer
+        do {
+            colonne = random.nextInt(jeu.COLONNES);
+        } while (!jeu.jouer(colonne));
+
+        return colonne;
+    }
+}
