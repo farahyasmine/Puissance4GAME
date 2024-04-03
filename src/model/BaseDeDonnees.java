@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BaseDeDonnees {
-    private final String url = "jdbc:mysql://localhost:8889/puissance4";
+    private final String url = "jdbc:mysql://localhost:3306/puissance4";
     private final String user = "root";
-    private final String password = "root";
+    private final String password = "";
 
     public BaseDeDonnees() {
         try {
