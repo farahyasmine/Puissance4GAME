@@ -1,62 +1,98 @@
 package controleur;
 
+import model.IA;
 import model.Jeu;
 import vue.VueJeu;
-import java.awt.Color;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controleur implements ActionListener {
-    private Jeu jeu;
-    private VueJeu vueJeu;
+    private final Jeu jeu;
+    private final VueJeu vueJeu;
+    private final IA ia;
+    private boolean jouerContreIA;
 
     public Controleur(Jeu jeu, VueJeu vueJeu) {
         this.jeu = jeu;
         this.vueJeu = vueJeu;
-        // Configure la vue pour utiliser ce contrôleur comme ActionListener pour ses boutons
+        this.ia = new IA(jeu);
         this.vueJeu.setBoutonListener(this);
+        // Assurez-vous que la VueJeu a des boutons ou mécanismes pour choisir le mode de jeu
+        // et qu'ils déclenchent les commandes "MODE_IA" ou "MODE_JVJ"
+        // Par exemple :
+        // this.vueJeu.setModeJeuListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Extrait le numéro de colonne à partir de la commande d'action
         String cmd = e.getActionCommand();
-        if (cmd.startsWith("COLONNE_")) {
+
+        if (cmd.equals("MODE_IA")) {
+            jouerContreIA = true;
+            demarrerNouvellePartie();
+        } else if (cmd.equals("MODE_JVJ")) {
+            jouerContreIA = false;
+            demarrerNouvellePartie();
+        } else if (cmd.startsWith("COLONNE_")) {
             int colonne = Integer.parseInt(cmd.substring(8));
-            if (jeu.jouer(colonne)) {
-                mettreAJourVue();
-                if (jeu.verifierVictoire()) {
-                    vueJeu.afficherMessage("Le joueur " + jeu.getJoueurActuel() + " gagne !");
-                    vueJeu.desactiverChoix(); // Empêche d'autres mouvements après la victoire
-                } else if (jeu.estPlein()) {
-                    vueJeu.afficherMessage("Match nul !");
-                    vueJeu.desactiverChoix(); // Empêche d'autres mouvements après un match nul
-                }
-                jeu.changerJoueur(); // Passe au prochain joueur
-            } else {
-                vueJeu.afficherMessage("Mouvement invalide. Veuillez réessayer.");
-            }
+            gererJeu(colonne);
+        }
+        if (jouerContreIA && jeu.getJoueurActuel() == 2 && !jeu.verifierVictoire() && !jeu.estPlein()) {
+            jouerCoupIA(); // L'IA joue après le joueur humain si nécessaire
         }
     }
 
-    private void mettreAJourVue() {
-        // Mise à jour de la grille dans la vue basée sur le modèle actuel
-        int[][] grille = jeu.getGrille();
-        for (int i = 0; i < grille.length; i++) {
-            for (int j = 0; j < grille[i].length; j++) {
-                if (grille[i][j] == 1) {
-                    vueJeu.afficherJeton(i, j, Color.RED);
-                } else if (grille[i][j] == 2) {
-                    vueJeu.afficherJeton(i, j, Color.YELLOW);
-                }
-            }
-        }
-    }
 
-    public void demarrerNouvellePartie() {
+    private void demarrerNouvellePartie() {
         jeu.reinitialiserJeu();
         vueJeu.reinitialiserGrille();
         vueJeu.reactiverChoix();
         mettreAJourVue();
+    }
+
+    private void gererJeu(int colonne) {
+        if (jeu.jouer(colonne)) {
+            mettreAJourVue();
+            verifierEtatJeu();
+        } else {
+            vueJeu.afficherMessage("Mouvement invalide. Veuillez réessayer.");
+        }
+    }
+
+    private void jouerCoupIA() {
+        int colonne = ia.jouerCoup();
+        if (jeu.jouer(colonne)) { // Assurez-vous que l'IA a joué avant de mettre à jour la vue
+            mettreAJourVue();
+            verifierEtatJeu();
+        }
+    }
+
+    private void verifierEtatJeu() {
+        if (jeu.verifierVictoire()) {
+            vueJeu.afficherMessage("Le joueur " + jeu.getJoueurActuel() + " gagne !");
+            vueJeu.desactiverChoix();
+        } else if (jeu.estPlein()) {
+            vueJeu.afficherMessage("Match nul !");
+            vueJeu.desactiverChoix();
+        } else {
+            jeu.changerJoueur();
+        }
+    }
+
+    private void mettreAJourVue() {
+        int[][] grille = jeu.getGrille();
+        for (int i = 0; i < jeu.getLignes(); i++) {
+            for (int j = 0; j < jeu.getColonnes(); j++) {
+                if (grille[i][j] == 1) {
+                    vueJeu.afficherJeton(i, j, Color.RED);
+                } else if (grille[i][j] == 2) {
+                    vueJeu.afficherJeton(i, j, Color.YELLOW);
+                } else {
+                    vueJeu.effacerJeton(i, j); // Vous devez implémenter cette méthode dans VueJeu
+                }
+            }
+        }
     }
 }
