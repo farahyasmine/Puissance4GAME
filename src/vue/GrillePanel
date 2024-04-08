@@ -5,13 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class GrillePanel extends JPanel {
-    // Puissance 4 a 6 lignes
     private final int lignes = 6;
-
-    // et 7 colonnes
     private final int colonnes = 7;
-    // La grille de boutons
     private JButton[][] boutons;
+    private Color couleurJoueurActuel = Color.RED; // Commencez par le joueur rouge
 
     public GrillePanel(ActionListener actionListener) {
         setLayout(new GridLayout(lignes, colonnes));
@@ -23,7 +20,13 @@ public class GrillePanel extends JPanel {
         for (int i = 0; i < lignes; i++) {
             for (int j = 0; j < colonnes; j++) {
                 JButton button = new JButton();
-                button.addActionListener(actionListener);
+                button.addActionListener(e -> {
+                    JButton clickedButton = (JButton) e.getSource();
+                    if (clickedButton.getBackground() != Color.RED && clickedButton.getBackground() != Color.BLUE) {
+                        remplirCase(i, j, couleurJoueurActuel);
+                        toggleJoueur(); // Alterne la couleur pour le prochain clic
+                    }
+                });
                 boutons[i][j] = button;
                 add(button);
             }
@@ -39,7 +42,7 @@ public class GrillePanel extends JPanel {
     public void remplirCase(int ligne, int colonne, Color couleur) {
         boutons[ligne][colonne].setBackground(couleur);
         boutons[ligne][colonne].setOpaque(true);
-        boutons[ligne][colonne].setBorderPainted(false);
+        boutons[ligne][colonne].setBorderPainted(false); // Pour une meilleure visibilité des couleurs
     }
 
     // Méthode pour effacer le contenu d'une case
@@ -47,5 +50,10 @@ public class GrillePanel extends JPanel {
         boutons[ligne][colonne].setBackground(null);
         boutons[ligne][colonne].setOpaque(false);
         boutons[ligne][colonne].setBorderPainted(true);
+    }
+
+    // Méthode pour alterner entre les joueurs (couleurs)
+    private void toggleJoueur() {
+        couleurJoueurActuel = (couleurJoueurActuel == Color.RED) ? Color.BLUE : Color.RED;
     }
 }
