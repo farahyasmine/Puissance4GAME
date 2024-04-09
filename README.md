@@ -5,6 +5,7 @@ Le jeu permet à deux joueurs, un humain et une IA, de s'affronter en plaçant a
 Le but est d'aligner quatre pions de sa propre couleur horizontalement, verticalement, ou en diagonale.
 
 Fonctionnalités
+
 •	Choix entre joueur humain et IA pour chaque joueur.
 •	Interface graphique pour l'interaction avec le jeu.
 •	Gestion des tours et détection automatique de la fin de partie.
@@ -13,6 +14,7 @@ Fonctionnalités
 •	Fonctionnalité additionnelle permettant de bloquer temporairement des colonnes.
 
 Installation
+
 Prérequis : Java JDK 11 ou supérieur.
 
 Lancement du Jeu
