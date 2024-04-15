@@ -19,10 +19,7 @@ public class Controleur implements ActionListener {
         this.vueJeu = vueJeu;
         this.ia = new IA(jeu);
         this.vueJeu.setBoutonListener(this);
-        // Assurez-vous que la VueJeu a des boutons ou mécanismes pour choisir le mode de jeu
-        // et qu'ils déclenchent les commandes "MODE_IA" ou "MODE_JVJ"
-        // Par exemple :
-        // this.vueJeu.setModeJeuListener(this);
+      
     }
 
     @Override
